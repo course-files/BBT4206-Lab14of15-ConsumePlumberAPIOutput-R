@@ -10,7 +10,7 @@ These are course files (instructional materials) for the **BBT4206: Business Int
 | **Semester Duration**                                                 | 21<sup>st</sup> August 2023 to 28<sup>th</sup> November 2023                                                                                                                       |
 | **Lecturer**                                                          | Allan Omondi                                                                                                                                                                       |
 | **Contact**                                                           | aomondi_at_strathmore_dot_edu                                                                                                                                                      |
-| **Recommended Citation (download [BibTex](RecommendedCitation.bib))** | Omondi, A. (2023). BBT4206-R-Lab13of15-RunPlumberAPI [R]. https://github.com/course-files/BBT4206-R-Lab13of15-RunPlumberAPI (Original work published 2023) |
+| **Recommended Citation (download [BibTex](RecommendedCitation.bib))** | Omondi, A. (2023). BBT4206-R-Lab14of15-ConsumePlumberAPIOutput [R]. https://github.com/course-files/BBT4206-R-Lab14of15-ConsumePlumberAPIOutput (Original work published 2023) |
 
 It is based on the following 9 steps of **Knowledge Discovery in Databases (KDD)**:
 
@@ -90,8 +90,8 @@ This involves operationalizing the knowledge discovered by integrating it into a
 
 -   *Lab12-PlumberAPI.R*
 
--   [*Lab13-RunPlumberAPI.R*](Lab13-RunPlumberAPI.R)
+-   *Lab13-RunPlumberAPI.R*
 
--   *Lab14-Consume-Plumber-API-Output.R*
+-   [*Lab14-ConsumePlumberAPIOutput.R*](Lab14-ConsumePlumberAPIOutput.R)
 
--   *Lab15-Consume-Plumber-API-Output.php*
+-   *Lab15-ConsumePlumberAPIOutput.php*
