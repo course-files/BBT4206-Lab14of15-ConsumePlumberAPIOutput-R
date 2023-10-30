@@ -1,5 +1,5 @@
 # *****************************************************************************
-# Lab 13: Run Plumber API ----
+# Lab 14: Consume data from the Plumber API Output (using R) ----
 #
 # Course Code: BBT4206
 # Course Name: Business Intelligence II
@@ -106,25 +106,92 @@ if (require("languageserver")) {
 }
 
 # STEP 1. Install and load the required packages ----
-## plumber ----
-if (require("plumber")) {
-  require("plumber")
+## httr ----
+if (require("httr")) {
+  require("httr")
 } else {
-  install.packages("plumber", dependencies = TRUE,
+  install.packages("httr", dependencies = TRUE,
                    repos = "https://cloud.r-project.org")
 }
 
-# STEP 2. Process a Plumber API ----
-# This allows us to process a plumber API
-api <- plumber::plumb("Lab12-PlumberAPI.R")
+## jsonlite ----
+if (require("jsonlite")) {
+  require("jsonlite")
+} else {
+  install.packages("jsonlite", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
 
-# STEP 3. Run the API on a specific port ----
-# Specify a constant localhost port to use
-api$run(host = "127.0.0.1", port = 5022)
+# STEP 2. Generate the URL required to access the API ----
 
-# STEP 4. Test the API ----
-# We test the API using the following values:
-# for the arguments:
-# pregnant, glucose, pressure, triceps, insulin, mass, pedigree, age
-# 6, 148, 72, 35, 0, 33.6, 0.627, and 50 respectively should be "positive"
-# 1, 85, 66, 29, 0, 26.6, 0.351, and 31 respectively should be "negative"
+# We set this as a constant port 5022 running on localhost
+base_url <- "http://127.0.0.1:5022/diabetes"
+
+# We create a named list called "params".
+# It contains an element for each parameter we need to specify.
+params <- list(arg_pregnant = 6, arg_glucose = 148, arg_pressure = 72,
+               arg_triceps = 35, arg_insulin = 0, arg_mass = 33.6,
+               arg_pedigree = 0.627, arg_age = 50)
+
+query_url <- httr::modify_url(url = base_url, query = params)
+
+# This is how the URL looks
+# Note: You can go to the URL using a browser and as long as the API is running,
+# you will get a response.
+print(query_url)
+
+# STEP 3. Make the request for the model prediction through the API ----
+# The results of the model prediction through the API can also be obtained in R
+model_prediction <- GET(query_url)
+
+# Notice that the result displays additional JSON content, e.g., [[1]]
+content(model_prediction)
+
+# We can print the specific result as follows:
+content(model_prediction)[[1]]
+
+# However, the response still has some JSON content.
+
+# STEP 4. Parse the response into the right format ----
+# We need to extract the results from the default JSON list format into
+# a non-list text format:
+model_prediction_raw <- content(model_prediction, as = "text",
+                                encoding = "utf-8")
+jsonlite::fromJSON(model_prediction_raw)
+
+# STEP 5. Enclose everything in a function ----
+# All the 3 steps above can be enclosed in a function
+get_diabetes_predictions <-
+  function(arg_pregnant, arg_glucose, arg_pressure, arg_triceps,
+           arg_insulin, arg_mass, arg_pedigree, arg_age) {
+    base_url <- "http://127.0.0.1:5022/diabetes"
+
+    params <- list(arg_pregnant = arg_pregnant, arg_glucose = arg_glucose,
+                   arg_pressure = arg_pressure, arg_triceps = arg_triceps,
+                   arg_insulin = arg_insulin, arg_mass = arg_mass,
+                   arg_pedigree = arg_pedigree, arg_age = arg_age)
+
+    query_url <- modify_url(url = base_url, query = params)
+
+    model_prediction <- GET(query_url)
+
+    model_prediction_raw <- content(model_prediction, as = "text",
+                                    encoding = "utf-8")
+
+    jsonlite::fromJSON(model_prediction_raw)
+  }
+
+# The model's prediction should be "positive for diabetes" based on the
+# following parameters:
+get_diabetes_predictions(6, 148, 72, 35, 0, 33.6, 0.627, 50)
+
+# The model's prediction should be "negative for diabetes" based on the
+# following parameters:
+get_diabetes_predictions(1, 85, 66, 29, 0, 26.6, 0.351, 31)
+
+# [OPTIONAL] **Deinitialization: Create a snapshot of the R environment ----
+# Lastly, as a follow-up to the initialization step, record the packages
+# installed and their sources in the lockfile so that other team-members can
+# use renv::restore() to re-install the same package version in their local
+# machine during their initialization step.
+# renv::snapshot() # nolint
