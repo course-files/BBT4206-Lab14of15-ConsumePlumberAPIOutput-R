@@ -1,5 +1,5 @@
 # *****************************************************************************
-# Lab 13: Run Plumber API ----
+# Lab 11: Plumber API ----
 #
 # Course Code: BBT4206
 # Course Name: Business Intelligence II
@@ -128,3 +128,10 @@ api$run(host = "127.0.0.1", port = 5022)
 # pregnant, glucose, pressure, triceps, insulin, mass, pedigree, age
 # 6, 148, 72, 35, 0, 33.6, 0.627, and 50 respectively should be "positive"
 # 1, 85, 66, 29, 0, 26.6, 0.351, and 31 respectively should be "negative"
+
+# [OPTIONAL] **Deinitialization: Create a snapshot of the R environment ----
+# Lastly, as a follow-up to the initialization step, record the packages
+# installed and their sources in the lockfile so that other team-members can
+# use renv::restore() to re-install the same package version in their local
+# machine during their initialization step.
+# renv::snapshot() # nolint
