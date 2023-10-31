@@ -119,6 +119,14 @@ if (require("plumber")) {
                    repos = "https://cloud.r-project.org")
 }
 
+## caret ----
+if (require("caret")) {
+  require("caret")
+} else {
+  install.packages("caret", dependencies = TRUE,
+                   repos = "https://cloud.r-project.org")
+}
+
 # Create a REST API using Plumber ----
 # REST API stands for Representational State Transfer Application Programming
 # Interface. It is an architectural style and a set of guidelines for building
@@ -184,7 +192,13 @@ loaded_diabetes_model_lda <- readRDS("./models/saved_diabetes_model_lda.rds")
 #* @apiDescription Used to predict whether a patient has diabetes or not.
 
 #* @param arg_pregnant The number of pregnancies the patient has had
-#* @param arg_glucose The patient's glucose level.
+#* @param arg_glucose Plasma glucose concentration (glucose tolerance test)
+#* @param arg_pressure Diastolic blood pressure (mm Hg)
+#* @param arg_triceps Triceps skin fold thickness (mm)
+#* @param arg_insulin 2-Hour serum insulin (mu U/ml)
+#* @param arg_mass Body mass index (weight in kg/(height in m)^2)
+#* @param arg_pedigree Diabetes pedigree function
+#* @param arg_age Age (years)
 
 #* @get /diabetes
 
